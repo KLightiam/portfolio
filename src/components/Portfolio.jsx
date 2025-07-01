@@ -1,5 +1,8 @@
 import React, { useState, useEffect, use } from 'react';
 import { Github, Linkedin, Mail, ExternalLink, MapPin, Calendar, ChevronRight, ArrowUpRight, SquareMenu } from 'lucide-react';
+import { FaCss3Alt, FaHtml5, FaNode, FaReact } from 'react-icons/fa';
+import { FaC, FaH } from 'react-icons/fa6';
+import { SiCloudinary, SiExpress, SiGit, SiJest, SiMongodb, SiPassport, SiPostgresql, SiPostman, SiPrisma, SiPug, SiRedux, SiTailwindcss, SiVitest } from 'react-icons/si';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('about');
@@ -189,26 +192,119 @@ const Portfolio = () => {
         </section>
 
         {/* Technology Section */}
-        <section id="technology" className="mb-20">
+        <section id='technology' className='mb-20'>
           <h2 className="text-3xl font-bold mb-2">Technology</h2>
           <p className="text-gray-600 mb-8">Here's what I typically work with.</p>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Object.entries(technologies).map(([category, items]) => (
-              <div key={category} className="border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors">
-                <h3 className="font-semibold text-lg mb-4 text-gray-900">{category}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {items.map((item) => (
-                    <span 
-                      key={item} 
-                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors"
-                    >
-                      {item}
-                    </span>
-                  ))}
+            <div className='border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors'>
+              <h3 className="font-semibold text-lg mb-4 text-gray-900">Frontend</h3>
+              <div className="flex flex-wrap gap-4">
+                <div className='flex flex-col items-center'>
+                <svg width="56px" height="56px" viewBox="0 -58 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" fill="#000000">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier"> <g> 
+                  <path d="M78.0659341,92.5875806 C90.8837956,92.5875806 101.274726,82.1966508 101.274726,69.3787894 C101.274726,56.5609279 90.8837956,46.1699982 78.0659341,46.1699982 C65.2480726,46.1699982 54.8571429,56.5609279 54.8571429,69.3787894 C54.8571429,82.1966508 65.2480726,92.5875806 78.0659341,92.5875806 Z M23.2087913,139.005163 C36.0266526,139.005163 46.4175825,128.614233 46.4175825,115.796372 C46.4175825,102.97851 36.0266526,92.5875806 23.2087913,92.5875806 C10.3909298,92.5875806 0,102.97851 0,115.796372 C0,128.614233 10.3909298,139.005163 23.2087913,139.005163 Z M232.791209,139.005163 C245.60907,139.005163 256,128.614233 256,115.796372 C256,102.97851 245.60907,92.5875806 232.791209,92.5875806 C219.973347,92.5875806 209.582418,102.97851 209.582418,115.796372 C209.582418,128.614233 219.973347,139.005163 232.791209,139.005163 Z" fill="#000000"> </path> 
+                  <path d="M156.565464,70.3568084 C155.823426,62.6028163 155.445577,56.1490255 149.505494,51.6131676 C141.982638,45.8687002 133.461166,49.5960243 122.964463,45.8072968 C112.650326,43.3121427 105,34.1545727 105,23.2394367 C105,10.4046502 115.577888,0 128.626373,0 C138.29063,0 146.599638,5.70747659 150.259573,13.8825477 C155.861013,24.5221258 152.220489,35.3500418 159.258242,40.8041273 C167.591489,47.2621895 178.826167,42.5329154 191.362109,48.6517412 C195.390112,50.5026944 198.799584,53.4384578 201.202056,57.0769224 C203.604528,60.7153869 205,65.0565524 205,69.7183101 C205,80.633446 197.349674,89.7910161 187.035538,92.2861702 C176.538834,96.0748977 168.017363,92.3475736 160.494506,98.092041 C152.03503,104.551712 156.563892,115.358642 149.669352,126.774447 C145.756163,134.291567 137.802119,139.43662 128.626373,139.43662 C115.577888,139.43662 105,129.03197 105,116.197184 C105,106.873668 110.581887,98.832521 118.637891,95.1306146 C131.173833,89.0117889 142.408511,93.7410629 150.741758,87.2830007 C155.549106,83.5574243 156.565464,77.8102648 156.565464,70.3568084 Z" fill="#D0021B"> </path> </g> </g>
+                </svg>
+                <span className='text-gray-900 font-semibold'>React-Router</span>
+                </div>
+
+                <div className='flex flex-col items-center'>
+                <FaReact className='size-14'/>
+                <span className='text-gray-900 font-semibold'>React.js</span>
+                </div>
+
+                <div className='flex flex-col items-center'>
+                <FaHtml5 className='size-14'/>
+                <span className='text-gray-900 font-semibold'>HTML5</span>
+                </div>
+                <div className='flex flex-col items-center'>
+                <FaCss3Alt className='size-14'/>
+                <span className='text-gray-900 font-semibold'>CSS3</span>
+                </div>
+                <div className='flex flex-col items-center'>
+                <SiTailwindcss className='size-14'/>
+                <span className='text-gray-900 font-semibold'>TailwindCss</span>
+                </div>
+                <div className='flex flex-col items-center'>
+                <SiRedux className='size-14'/>
+                <span className='text-gray-900 font-semibold'>Redux Toolkit</span>
+                </div>
+                <div className='flex flex-col items-center'>
+                <SiVitest className='size-14'/>
+                <span className='text-gray-900 font-semibold'>Vitest</span>
+                </div>
+                <div className='flex flex-col items-center'>
+                <SiJest className='size-14'/>
+                <span className='text-gray-900 font-semibold'>Jest</span>
                 </div>
               </div>
-            ))}
+            </div>
+            <div className='border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors'>
+              <h3 className="font-semibold text-lg mb-4 text-gray-900">Backend</h3>
+              <div className="flex flex-wrap gap-4">
+                <div className='flex flex-col items-center'>
+                <FaNode className='size-14'/>
+                <span className='text-gray-900 font-semibold'>Node.js</span>
+                </div>
+
+                <div className='flex flex-col items-center'>
+                <SiExpress className='size-14'/>
+                <span className='text-gray-900 font-semibold'>Express</span>
+                </div>
+
+                <div className='flex flex-col items-center'>
+                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="56" height="56" viewBox="0 0 48 48">
+                    <polygon fill="#c0ca33" points="19.981,15.84 19.981,10.575 -0.014,21.019 -0.014,26.92 20.066,37.363 20.066,32.099 5.208,23.948"></polygon>
+                    <polygon fill="#c0ca33" points="23.547,36.281 29.575,36.281 47.066,11.807 41.08,11.807"></polygon>
+                   <path fill="#c0ca33" d="M28.429,12.274c-2.79,0-5.052,2.262-5.052,5.052s2.262,5.052,5.052,5.052s5.052-2.262,5.052-5.052	C33.481,14.535,31.219,12.274,28.429,12.274z M28.472,18.981c-0.821,0-1.486-0.77-1.486-1.719s0.665-1.719,1.486-1.719	s1.486,0.77,1.486,1.719S29.292,18.981,28.472,18.981z"></path>
+                   <path fill="#c0ca33" d="M41.429,27.274c-2.79,0-5.052,2.262-5.052,5.052s2.262,5.052,5.052,5.052s5.052-2.262,5.052-5.052	C46.481,29.535,44.219,27.274,41.429,27.274z M41.472,33.981c-0.821,0-1.486-0.77-1.486-1.719s0.665-1.719,1.486-1.719	s1.486,0.77,1.486,1.719C42.958,33.211,42.292,33.981,41.472,33.981z"></path>
+                 </svg>                
+                 <span className='text-gray-900 font-semibold'>EJS</span>
+                </div>
+
+                <div className='flex flex-col items-center'>
+                <SiPug className='size-14'/>
+                <span className='text-gray-900 font-semibold'>PUG</span>
+                </div>
+
+                <div className='flex flex-col items-center'>
+                <SiPassport className='size-14'/>
+                <span className='text-gray-900 font-semibold'>Passport</span>
+                </div>
+                
+              </div>
+          </div>
+          <div className='border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors'>
+            <h3 className="font-semibold text-lg mb-4 text-gray-900">Database/Tools</h3>
+            <div className="flex flex-wrap gap-4">
+              <div className='flex flex-col items-center'>
+                 <SiGit className='size-14'/>
+                 <span className='text-gray-900 font-semibold'>Git</span>
+              </div>
+              <div className='flex flex-col items-center'>
+                 <SiPostman className='size-14'/>
+                 <span className='text-gray-900 font-semibold'>Postman</span>
+              </div>
+              <div className='flex flex-col items-center'>
+                 <SiPostgresql className='size-14'/>
+                 <span className='text-gray-900 font-semibold'>Postgresql</span>
+              </div>
+              <div className='flex flex-col items-center'>
+                 <SiPrisma className='size-14'/>
+                 <span className='text-gray-900 font-semibold'>Prisma</span>
+              </div>
+              <div className='flex flex-col items-center'>
+                 <SiMongodb className='size-14'/>
+                 <span className='text-gray-900 font-semibold'>Mongodb</span>
+              </div>
+              <div className='flex flex-col items-center'>
+                 <SiCloudinary className='size-14'/>
+                 <span className='text-gray-900 font-semibold'>Cloudinary</span>
+              </div>
+            </div>
+          </div>
           </div>
         </section>
 

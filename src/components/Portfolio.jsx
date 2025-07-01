@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { Github, Linkedin, Mail, ExternalLink, MapPin, Calendar, ChevronRight, ArrowUpRight, SquareMenu } from 'lucide-react';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('about');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const technologies = {
     Frontend: ['React', 'React-Router', 'HTML5', 'CSS3', 'Tailwind','Redux Toolkit','Vitest','Jest'],
@@ -13,25 +14,11 @@ const Portfolio = () => {
   const workExperience = [
     {
       title: 'Full Stack Developer',
-      period: 'Jan, 2024 – Present',
-      company: 'TechCorp Solutions',
+      period: 'Feb, 2023 – Present',
+      company: 'Freelance',
       location: 'Remote',
-      projects: ['E-commerce Platform', 'Analytics Dashboard']
+      projects: ['E-commerce Platforms', 'FileUpload Services','News Website'],
     },
-    {
-      title: 'Frontend Developer Intern',
-      period: 'Jun, 2023 – Dec, 2023',
-      company: 'StartupXYZ',
-      location: 'San Francisco, CA',
-      projects: ['Mobile App UI', 'Design System']
-    },
-    {
-      title: 'Research Assistant',
-      period: 'Mar, 2023 – May, 2023',
-      company: 'University AI Lab',
-      location: 'Boston, MA',
-      projects: ['ML Model Optimization']
-    }
   ];
 
   const projects = [
@@ -116,25 +103,36 @@ const Portfolio = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-white text-gray-900" onClick={() => isMenuOpen && setIsMenuOpen(false)}>
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md border-b border-gray-100 z-10">
         <div className="max-w-full mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className='md:hidden '>
-              <SquareMenu className='transition-all duration-100 ease-in hover:scale-110 cursor-pointer'/>
+          <div className="flex justify-between items-center relative">
+            <div className='md:hidden'>
+              <SquareMenu className='transition-all duration-100 ease-in hover:scale-110 cursor-pointer' onClick={()=>setIsMenuOpen(!isMenuOpen)}/>
             </div>
             <h1 className="text-xl font-semibold">Kingsley A. Asare</h1>
-            <div className="hidden md:flex space-x-8">
+            <div className={isMenuOpen? `md:hidden flex flex-col absolute top-11 bg-white z-10 items-start w-40 gap-2 border-r border-b border-gray-300 pb-4 rounded-sm`:
+              `hidden md:flex space-x-8`} onClick={(e) => e.stopPropagation()}>
               {['About', 'Technology', 'Experience', 'Projects'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
-                  className={`text-sm transition-colors duration-200 ${
+                  className={`${isMenuOpen? `text-xl`:`text-sm`} cursor-pointer transition-colors duration-100 ${
                     activeSection === item.toLowerCase() 
                       ? 'text-blue-600 font-medium' 
-                      : 'text-gray-600 hover:text-gray-900'
+                      : 'text-gray-600 hover:text-gray-900 hover:scale-110'
                   }`}
                 >
                   {item}
@@ -167,7 +165,7 @@ const Portfolio = () => {
             <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed space-y-4">
               <p>
                I am a motivated and solutions-oriented professional with hands-on experience in full-stack development, research, and data management. 
-               Proficient in modern web technologies including the PERN stack (PostgreSQL, Express.js, React.js, Node.js), Redux Toolkit, 
+               Proficient in modern web technologies including the <span className='text-blue-600'>PERN stack </span> (PostgreSQL, Express.js, React.js, Node.js), Redux Toolkit, 
                and Tailwind CSS. Skilled in database management and API design.
               </p>
               <p>

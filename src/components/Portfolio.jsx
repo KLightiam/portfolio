@@ -145,7 +145,7 @@ const Portfolio = () => {
               <a href="www.linkedin.com/in/kingsley-asare-82849656" className="text-gray-600 hover:text-gray-900 transition-colors">
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
+              <a href="mailto:kingsleyasareankomah@gmail.com" className="text-gray-600 hover:text-gray-900 transition-colors">
                 <Mail className="w-5 h-5" />
               </a>
             </div>
@@ -454,7 +454,7 @@ const Portfolio = () => {
           </p>
           <div className="flex justify-center gap-6">
             <a 
-              href="mailto:john@example.com" 
+              href="mailto:kingsleyasareankomah@gmail.com"
               className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               <Mail className="w-5 h-5" />

@@ -23,7 +23,7 @@ const Portfolio = () => {
       title: 'Blog Platform',
       description: 'A blog site for posting stories and articles. The app uses Reactjs for the frontend with tools like react-router and tailwindcsss. The api was created using expressjs while postgresql was used for the database management',
       tech: ['React', 'Node.js', 'PostgreSQL', 'React-Router', 'Postgresql', 'Express', 'Prisma', 'Tailwind Css'],
-      github: 'https://github.com/KLightiam/blog-site-frontend',
+      github: 'https://github.com/KLightiam/blog-site-backend',
       demo: '#',
       src: ['./blog/eight.png', './blog/one.png', './blog/two.png', './blog/three.png', './blog/four.png', './blog/five.png', './blog/six.png', './blog/seven.png'],
       featured: true
@@ -46,26 +46,26 @@ const Portfolio = () => {
       featured: true
     },
     {
-      title: 'AI Content Generator',
-      description: 'An AI-powered content generation tool that helps users create blog posts, social media content, and marketing copy using advanced language models.',
-      tech: ['Python', 'FastAPI', 'React', 'OpenAI API'],
-      github: '#',
+      title: 'To-Do List App',
+      description: 'A To-Do app to help keep track of my activities and schedule. The app was created using vanilla javascript, html and css as well as tools like the date-fns package.uage models.',
+      tech: ['Javascript', 'HTML', 'CSS', 'Date-fns'],
+      github: 'https://github.com/KLightiam/To-Do',
       demo: '#',
       featured: false
     },
     {
-      title: 'Weather Analytics Dashboard',
-      description: 'A comprehensive weather analytics platform that provides detailed insights, forecasting, and historical data visualization for multiple locations.',
-      tech: ['Vue.js', 'Python', 'PostgreSQL', 'Chart.js'],
-      github: '#',
+      title: 'Shopping Cart',
+      description: 'A simple shopping cart application that allows users to browse products, add them to a cart, and proceed to checkout. The app uses React and Redux Toolkit for state management, and Tailwind CSS.',
+      tech: ['React', 'Redux-Toolkit', 'React Router', 'Tailwind CSS'],
+      github: 'https://github.com/KLightiam/shopping-cart',
       demo: '#',
       featured: false
     },
     {
-      title: 'Expense Tracker',
-      description: 'A personal finance management application with budgeting tools, expense categorization, and financial insights to help users manage their money better.',
-      tech: ['React Native', 'Firebase', 'Node.js'],
-      github: '#',
+      title: 'Memory Game',
+      description: 'A fun memory card game built with React. The game challenges players to remember clicked cards by shuffling them each time a card is clicked, testing their memory and concentration skills. It features a simple and intuitive interface, making it easy to play.',
+      tech: ['React','Unsplash API'],
+      github: 'https://github.com/KLightiam/memory-card-game',
       demo: '#',
       featured: false
     }
@@ -449,8 +449,8 @@ const Portfolio = () => {
         <section id="contact" className="text-center">
           <h2 className="text-3xl font-bold mb-4">Let's Connect</h2>
           <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-            I'm always interested in new opportunities and collaborations. 
-            Feel free to reach out if you'd like to work together!
+            I'm interested in new opportunities and collaborations. 
+            Kindly reach out if you'd like us to work together!🫶🏽
           </p>
           <div className="flex justify-center gap-6">
             <a 

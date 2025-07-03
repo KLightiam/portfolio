@@ -139,10 +139,10 @@ const Portfolio = () => {
               ))}
             </div>
             <div className="flex space-x-4">
-              <a href="https://github.com/KLightiam" className="text-gray-600 hover:text-gray-900 transition-colors">
+              <a href="https://github.com/KLightiam" target='_blank' rel='noopenner noreferrer' className="text-gray-600 hover:text-gray-900 transition-colors">
                 <Github className="w-5 h-5" />
               </a>
-              <a href="www.linkedin.com/in/kingsley-asare-82849656" className="text-gray-600 hover:text-gray-900 transition-colors">
+              <a href="https://www.linkedin.com/in/kingsley-asare-82849656" target='_blank' rel='noopenner noreferrer' className="text-gray-600 hover:text-gray-900 transition-colors">
                 <Linkedin className="w-5 h-5" />
               </a>
               <a href="mailto:kingsleyasareankomah@gmail.com" className="text-gray-600 hover:text-gray-900 transition-colors">
@@ -362,7 +362,7 @@ const Portfolio = () => {
                         <img 
                           src={image} 
                           alt={`${project.title} screenshot ${imgIndex + 1}`} 
-                          className="w-32 h-32 object-cover rounded-lg"
+                          className="w-32 h-32 object-cover rounded-lg hover:scale-105 transition-transform"
                         />
                       </a>
                     ))}
@@ -462,6 +462,8 @@ const Portfolio = () => {
             </a>
             <a 
               href="https://github.com/KLightiam" 
+              target='_blank'
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
             >
               <Github className="w-5 h-5" />

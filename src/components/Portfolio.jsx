@@ -8,12 +8,6 @@ const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('about');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const technologies = {
-    Frontend: ['React', 'React-Router', 'HTML5', 'CSS3', 'Tailwind','Redux Toolkit','Vitest','Jest'],
-    Backend: ['Node.js', 'Express','EJS','PUG','Passport.js'],
-    "Database/Tools": ['Git','Postman','Prisma','PostgreSQL','MongoDB','Cloudinary']
-  };
-
   const workExperience = [
     {
       title: 'Full Stack Developer',
@@ -26,25 +20,27 @@ const Portfolio = () => {
 
   const projects = [
     {
+      title: 'Blog Platform',
+      description: 'A blog site for posting stories and articles. The app uses Reactjs for the frontend with tools like react-router and tailwindcsss. The api was created using expressjs while postgresql was used for the database management',
+      tech: ['React', 'Node.js', 'PostgreSQL', 'React-Router', 'Postgresql', 'Express', 'Prisma', 'Tailwind Css'],
+      github: 'https://github.com/KLightiam/blog-site-frontend',
+      demo: '#',
+      src: ['./blog/eight.png', './blog/one.png', './blog/two.png', './blog/three.png', './blog/four.png', './blog/five.png', './blog/six.png', './blog/seven.png'],
+      featured: true
+    },
+    {
+      title: 'File Upload Service',
+      description: 'A file uploader app for uploading, managing and viewing personal files for both individuals and institutions. The app uses expressjs for the server side and ejs as the template engine. Multer was used for handling uploads and cloudinary for file storage. The app uses postgresql for database management.',
+      tech: ['EJS', 'Express', 'Postgresql', 'Prisma', 'Cloudinary', 'Passport','multer'],
+      github: 'https://github.com/KLightiam/file-uploader',
+      demo: '#',
+      src: ['./fileUploader/one.png', './fileUploader/two.png', './fileUploader/three.png', './fileUploader/four.png', './fileUploader/five.png'],
+      featured: true
+    },
+   {
       title: 'Portfolio Website',
-      description: 'My personal portfolio website built with React and Tailwind CSS to showcase my skills, projects, and experience with a clean, minimal design approach.',
-      tech: ['React', 'Tailwind CSS', 'Framer Motion'],
-      github: '#',
-      demo: '#',
-      featured: true
-    },
-    {
-      title: 'E-Commerce Platform',
-      description: 'A full-stack e-commerce solution with advanced features like real-time inventory management, payment processing, and analytics dashboard. Built to handle thousands of concurrent users.',
-      tech: ['Next.js', 'Node.js', 'PostgreSQL', 'Stripe', 'Redis'],
-      github: '#',
-      demo: '#',
-      featured: true
-    },
-    {
-      title: 'Task Management App',
-      description: 'A collaborative task management application with real-time updates, team collaboration features, and advanced project tracking capabilities.',
-      tech: ['React', 'Express', 'MongoDB', 'Socket.io'],
+      description: 'My personal portfolio website crafted using React and Tailwind CSS, designed to present my skills, projects, and experience through a simple interface that reflects my approach to problems. The site features a responsive design, ensuring optimal viewing across devices, and includes sections for my motivation, work experience, technology stack, and recent projects.',
+      tech: ['React', 'Tailwind CSS', 'Lucide Icons','React Icons'],
       github: '#',
       demo: '#',
       featured: true
@@ -353,12 +349,26 @@ const Portfolio = () => {
 
         {/* Projects Section */}
         <section id="projects" className="mb-20">
-          <h2 className="text-3xl font-bold mb-2">Featured Projects</h2>
+          <h2 className="text-3xl font-bold mb-2">Recent Projects</h2>
           <p className="text-gray-600 mb-8">Some of my recent work and personal projects.</p>
           
           <div className="space-y-8">
             {projects.filter(p => p.featured).map((project, index) => (
               <div key={index} className="border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-all duration-200 hover:shadow-sm">
+                <div className={`${project.src && 'border-b'} border-gray-200 mb-4`}>
+                  <div className="flex overflow-x-auto gap-4">
+                    {project.src && project.src.map((image, imgIndex) => (
+                      <a  key={imgIndex} href={image} target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
+                        <img 
+                          src={image} 
+                          alt={`${project.title} screenshot ${imgIndex + 1}`} 
+                          className="w-32 h-32 object-cover rounded-lg"
+                        />
+                      </a>
+                    ))}
+                  </div>
+
+                </div>
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-xl font-semibold text-gray-900">{project.title}</h3>
                   <div className="flex gap-2">

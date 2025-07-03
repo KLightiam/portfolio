@@ -122,7 +122,7 @@ const Portfolio = () => {
               <SquareMenu className='transition-all duration-100 ease-in hover:scale-110 cursor-pointer' onClick={()=>setIsMenuOpen(!isMenuOpen)}/>
             </div>
             <h1 className="text-xl font-semibold">Kingsley A. Asare</h1>
-            <div className={isMenuOpen? `md:hidden flex flex-col absolute top-11 bg-white z-10 items-start w-40 gap-2 border-r border-b border-gray-300 pb-4 rounded-sm`:
+            <div className={isMenuOpen? `md:hidden flex flex-col absolute top-11 -left-2 bg-white z-10 items-start w-40 gap-2 border-r border-b border-gray-300 pb-4 rounded-sm`:
               `hidden md:flex space-x-8`} onClick={(e) => e.stopPropagation()}>
               {['About', 'Technology', 'Experience', 'Projects'].map((item) => (
                 <button

@@ -41,7 +41,7 @@ const Portfolio = () => {
       title: 'Portfolio Website',
       description: 'My personal portfolio website crafted using React and Tailwind CSS, designed to present my skills, projects, and experience through a simple interface that reflects my approach to problems. The site features a responsive design, ensuring optimal viewing across devices, and includes sections for my motivation, work experience, technology stack, and recent projects.',
       tech: ['React', 'Tailwind CSS', 'Lucide Icons','React Icons'],
-      github: '#',
+      github: 'https://github.com/KLightiam/portfolio',
       demo: '#',
       featured: true
     },

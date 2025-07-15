@@ -138,7 +138,7 @@ const App = () => {
               </p>
             </div>
           </div>
-          <div className='sm:hidden md:block overflow-hidden'>
+          <div className='hidden md:block overflow-hidden'>
             <img src="./20190521_111102.jpg" alt="A picture of me" srcset="" width={900} className='rounded-tl-full rounded-br-full object-contain '/>
           </div>
         </section>

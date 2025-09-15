@@ -5,7 +5,7 @@ import {useRef, useState, useEffect} from 'react';
 import { Github, Linkedin, Mail, ExternalLink, MapPin, Calendar, ChevronRight, ArrowUpRight, SquareMenu } from 'lucide-react';
 import { FaCss3Alt, FaHtml5, FaNode, FaReact } from 'react-icons/fa';
 import { FaC, FaH } from 'react-icons/fa6';
-import { SiCloudinary, SiExpress, SiGit, SiJest, SiMongodb, SiPassport, SiPostgresql, SiPostman, SiPrisma, SiPug, SiRedux, SiTailwindcss, SiVitest } from 'react-icons/si';
+import { SiCloudinary, SiExpress, SiGit, SiGraphql, SiJest, SiMongodb, SiPassport, SiPostgresql, SiPostman, SiPrisma, SiPug, SiRedux, SiTailwindcss, SiVitest } from 'react-icons/si';
 
 const App = () => {
   const [activeSection, setActiveSection] = useState('about');
@@ -242,6 +242,10 @@ const App = () => {
               <div className='flex flex-col items-center'>
                  <SiPostgresql className='size-14'/>
                  <span className='text-gray-900 font-semibold'>Postgresql</span>
+              </div>
+              <div className='flex flex-col items-center'>
+                  <SiGraphql className='size-14'/>
+                  <span className='text-gray-900 font-semibold'>GraphQL</span>
               </div>
               <div className='flex flex-col items-center'>
                  <SiPrisma className='size-14'/>

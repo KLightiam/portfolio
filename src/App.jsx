@@ -5,7 +5,7 @@ import {useRef, useState, useEffect} from 'react';
 import { Github, Linkedin, Mail, ExternalLink, MapPin, Calendar, ChevronRight, ArrowUpRight, SquareMenu } from 'lucide-react';
 import { FaCss3Alt, FaHtml5, FaNode, FaReact } from 'react-icons/fa';
 import { FaC, FaH } from 'react-icons/fa6';
-import { SiCloudinary, SiExpress, SiGit, SiGraphql, SiJest, SiMongodb, SiPassport, SiPostgresql, SiPostman, SiPrisma, SiPug, SiPython, SiRedux, SiTailwindcss, SiVitest } from 'react-icons/si';
+import { SiCloudinary, SiDjango, SiExpress, SiFlask, SiGit, SiGraphql, SiJavascript, SiJest, SiMongodb, SiPassport, SiPostgresql, SiPostman, SiPrisma, SiPug, SiPython, SiRedux, SiTailwindcss, SiVitest } from 'react-icons/si';
 
 const App = () => {
   const [activeSection, setActiveSection] = useState('about');
@@ -196,6 +196,10 @@ const App = () => {
                 <SiPython className='size-14'/>
                 <span className='text-gray-900 font-semibold'>Python</span>
                 </div>
+                <div className='flex flex-col items-center'>
+                <SiJavascript className='size-14'/>
+                <span className='text-gray-900 font-semibold'>javaScript</span>
+                </div>
               </div>
             </div>
             {/* backend languages and frameworks */}
@@ -230,6 +234,14 @@ const App = () => {
                 <div className='flex flex-col items-center'>
                 <SiPassport className='size-14'/>
                 <span className='text-gray-900 font-semibold'>Passport</span>
+                </div>
+                <div className='flex flex-col items-center'>
+                <SiDjango className='size-14'/>
+                <span className='text-gray-900 font-semibold'>Django</span>
+                </div>
+                <div className='flex flex-col items-center'>
+                <SiFlask className='size-14'/>
+                <span className='text-gray-900 font-semibold'>Flask</span>
                 </div>
                 
               </div>

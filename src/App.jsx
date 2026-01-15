@@ -98,7 +98,7 @@ const App = () => {
               <a href="https://github.com/KLightiam" target='_blank' rel='noopenner noreferrer' className="text-gray-600 hover:text-gray-900 transition-colors">
                 <Github className="w-5 h-5" />
               </a>
-              <a href="https://www.linkedin.com/in/kingsley-asare-82849656" target='_blank' rel='noopenner noreferrer' className="text-gray-600 hover:text-gray-900 transition-colors">
+              <a href="https://www.linkedin.com/in/kingsleyankomahasare" target='_blank' rel='noopenner noreferrer' className="text-gray-600 hover:text-gray-900 transition-colors">
                 <Linkedin className="w-5 h-5" />
               </a>
               <a href="mailto:kingsleyasareankomah@gmail.com" className="text-gray-600 hover:text-gray-900 transition-colors">

@@ -5,7 +5,7 @@ import {useRef, useState, useEffect} from 'react';
 import { Github, Linkedin, Mail, ExternalLink, MapPin, Calendar, ChevronRight, ArrowUpRight, SquareMenu } from 'lucide-react';
 import { FaCss3Alt, FaHtml5, FaNode, FaReact } from 'react-icons/fa';
 import { FaC, FaH } from 'react-icons/fa6';
-import { SiCloudinary, SiExpress, SiGit, SiGraphql, SiJest, SiMongodb, SiPassport, SiPostgresql, SiPostman, SiPrisma, SiPug, SiRedux, SiTailwindcss, SiVitest } from 'react-icons/si';
+import { SiCloudinary, SiExpress, SiGit, SiGraphql, SiJest, SiMongodb, SiPassport, SiPostgresql, SiPostman, SiPrisma, SiPug, SiPython, SiRedux, SiTailwindcss, SiVitest } from 'react-icons/si';
 
 const App = () => {
   const [activeSection, setActiveSection] = useState('about');
@@ -150,6 +150,7 @@ const App = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className='border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors'>
+              {/* frontend languages and frameworks */}
               <h3 className="font-semibold text-lg mb-4 text-gray-900">Frontend</h3>
               <div className="flex flex-wrap gap-4">
                 <div className='flex flex-col items-center'>
@@ -191,8 +192,13 @@ const App = () => {
                 <SiJest className='size-14'/>
                 <span className='text-gray-900 font-semibold'>Jest</span>
                 </div>
+                <div className='flex flex-col items-center'>
+                <SiPython className='size-14'/>
+                <span className='text-gray-900 font-semibold'>Python</span>
+                </div>
               </div>
             </div>
+            {/* backend languages and frameworks */}
             <div className='border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors'>
               <h3 className="font-semibold text-lg mb-4 text-gray-900">Backend</h3>
               <div className="flex flex-wrap gap-4">
@@ -228,6 +234,7 @@ const App = () => {
                 
               </div>
           </div>
+          {/* database and tools */}
           <div className='border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors'>
             <h3 className="font-semibold text-lg mb-4 text-gray-900">Database/Tools</h3>
             <div className="flex flex-wrap gap-4">

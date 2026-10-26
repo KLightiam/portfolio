@@ -1,465 +1,487 @@
-import './App.css'
+import { useEffect, useId, useState } from 'react';
+import { Github, Linkedin, Mail, Menu, X, GraduationCap, Briefcase, ArrowUpRight, MapPin } from 'lucide-react';
+import dataScience from './data/dataScience';
 import projects from './data/projects';
 import workExperience from './data/workExperience';
-import {useRef, useState, useEffect} from 'react';
-import { Github, Linkedin, Mail, ExternalLink, MapPin, Calendar, ChevronRight, ArrowUpRight, SquareMenu } from 'lucide-react';
-import { FaCss3Alt, FaHtml5, FaNode, FaReact } from 'react-icons/fa';
-import { FaC, FaH } from 'react-icons/fa6';
-import { SiCloudinary, SiDjango, SiExpress, SiFlask, SiGit, SiGraphql, SiJavascript, SiJest, SiMongodb, SiPassport, SiPostgresql, SiPostman, SiPrisma, SiPug, SiPython, SiRedux, SiTailwindcss, SiVitest } from 'react-icons/si';
+import skills from './data/skills';
+import TrajectoryHero from './components/TrajectoryHero';
+import FigureGallery from './components/FigureGallery';
+import { Chart } from './components/Charts';
 
-const App = () => {
-  const [activeSection, setActiveSection] = useState('about');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const NAV = [
+  { id: 'data-science', label: 'Data science' },
+  { id: 'software', label: 'Software' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'contact', label: 'Contact' },
+];
 
-  //refs for each section
-  const aboutRef = useRef(null);
-  const technologyRef = useRef(null);
-  const experienceRef = useRef(null);
-  const projectsRef = useRef(null);
+const LINKS = {
+  github: 'https://github.com/KLightiam',
+  linkedin: 'https://www.linkedin.com/in/kingsleyankomahasare',
+  email: 'mailto:kingsleyasareankomah@gmail.com',
+};
 
-  const sectionRefs = {
-    about: aboutRef,
-    technology: technologyRef,
-    experience: experienceRef,
-    projects: projectsRef,
-  };
+function useActiveSection(ids) {
+  const [active, setActive] = useState(null);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      { rootMargin: '-30% 0px -60% 0px' },
+    );
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
+  }, [ids]);
+  return active;
+}
 
-
-
-  const scrollToSection = (sectionId) => {
-    const ref = sectionRefs[sectionId];
-    if (ref && ref.current) {
-      ref.current.scrollIntoView({ behavior: 'smooth' });
-      setActiveSection(sectionId);
-    }
-  };
+function Nav() {
+  const [open, setOpen] = useState(false);
+  const active = useActiveSection(NAV.map((n) => n.id));
 
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['about', 'technology', 'experience', 'projects'];
-      const scrollPosition = window.scrollY + 100;
-
-      for (const section of sections) {
-        const ref = sectionRefs[section];
-        if (ref && ref.current) {
-          const offsetTop = ref.current.offsetTop;
-          const offsetHeight = ref.current.offsetHeight;
-
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsMenuOpen(false);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    const close = () => window.innerWidth >= 768 && setOpen(false);
+    window.addEventListener('resize', close);
+    return () => window.removeEventListener('resize', close);
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-gray-900" onClick={() => isMenuOpen && setIsMenuOpen(false)}>
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md border-b border-gray-100 z-10">
-        <div className="max-w-full mx-auto px-6 py-4">
-          <div className="flex justify-between items-center relative">
-            <div className='md:hidden'>
-              <SquareMenu className='transition-all duration-100 ease-in hover:scale-110 cursor-pointer' onClick={()=>setIsMenuOpen(!isMenuOpen)}/>
-            </div>
-            <h1 className="text-xl font-semibold">Kingsley A. Asare</h1>
-            <div className={isMenuOpen? `md:hidden flex flex-col absolute top-11 -left-2 bg-white z-10 items-start w-40 gap-2 border-r border-b border-gray-300 pb-4 rounded-sm`:
-              `hidden md:flex space-x-8`} onClick={(e) => e.stopPropagation()}>
-              {['About', 'Technology', 'Experience', 'Projects'].map((item) => (
-                <button
-                  key={item}
-                  onClick={() => scrollToSection(item.toLowerCase())}
-                  className={`${isMenuOpen? `text-xl`:`text-sm`} cursor-pointer transition-colors duration-100 ${
-                    activeSection === item.toLowerCase() 
-                      ? 'text-blue-600 font-medium' 
-                      : 'text-gray-600 hover:text-gray-900 hover:scale-110'
-                  }`}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-            <div className="flex space-x-4">
-              <a href="https://github.com/KLightiam" target='_blank' rel='noopenner noreferrer' className="text-gray-600 hover:text-gray-900 transition-colors">
-                <Github className="w-5 h-5" />
+    <nav className="fixed inset-x-0 top-0 z-20 bg-paper/85 backdrop-blur-md border-b border-rule/70">
+      <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between gap-6">
+        <a href="#top" className="font-semibold tracking-tight text-[1.05rem]">
+          Kingsley Asare
+        </a>
+        <ul className="hidden md:flex items-center gap-1">
+          {NAV.map((n) => (
+            <li key={n.id}>
+              <a
+                href={`#${n.id}`}
+                aria-current={active === n.id ? 'true' : undefined}
+                className={`px-3 py-1.5 rounded-full text-sm transition-colors ${
+                  active === n.id ? 'bg-ink text-white' : 'text-slate hover:text-ink hover:bg-faint'
+                }`}
+              >
+                {n.label}
               </a>
-              <a href="https://www.linkedin.com/in/kingsleyankomahasare" target='_blank' rel='noopenner noreferrer' className="text-gray-600 hover:text-gray-900 transition-colors">
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a href="mailto:kingsleyasareankomah@gmail.com" className="text-gray-600 hover:text-gray-900 transition-colors">
-                <Mail className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
+            </li>
+          ))}
+        </ul>
+        <div className="flex items-center gap-1">
+          <IconLink href={LINKS.github} label="GitHub"><Github className="w-[18px] h-[18px]" /></IconLink>
+          <IconLink href={LINKS.linkedin} label="LinkedIn"><Linkedin className="w-[18px] h-[18px]" /></IconLink>
+          <IconLink href={LINKS.email} label="Email"><Mail className="w-[18px] h-[18px]" /></IconLink>
+          <button
+            type="button"
+            className="md:hidden ml-1 p-2 rounded-md hover:bg-faint"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            onClick={() => setOpen((o) => !o)}
+          >
+            {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
-      </nav>
+      </div>
+      {open && (
+        <ul id="mobile-menu" className="md:hidden border-t border-rule bg-paper px-5 py-3 space-y-1">
+          {NAV.map((n) => (
+            <li key={n.id}>
+              <a href={`#${n.id}`} onClick={() => setOpen(false)} className="block py-2 text-lg">
+                {n.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </nav>
+  );
+}
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 pt-24 pb-16">
-        {/* About Section */}
-        <section ref={aboutRef} id="about" className="mb-10 flex md:flex-row items-center overflow-hidden">
-          <div className="mb-8">
-            <h2 className="text-4xl font-bold mb-6">
-              Hi, I am <span className="text-blue-600">Kingsley A. Asare</span>
-            </h2>
-            <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed space-y-4">
-              <p>
-               I am a motivated and solutions-oriented professional with hands-on experience in full-stack development, research, and data management. 
-               Proficient in modern web technologies including the <span className='text-blue-600'>PERN stack </span> (PostgreSQL, Express.js, React.js, Node.js), Redux Toolkit, 
-               and Tailwind CSS. Skilled in database management and API design.
-              </p>
-              <p>
-                I love designing, developing, and deploying apps from start to finish. Whether it's creating 
-                something new or optimizing an existing project.
-                Passionate about building scalable web applications and optimizing systems for performance. 
-                I'm adept at problem-solving, teamwork, and continuous learning in fast-paced environments.
-              </p>
-              <p>
-                If it's about solving problems and building innovative solutions, I'm ready to jump in and get started! 
-                <a href="#contact" className="text-blue-600 hover:text-blue-700 inline-flex items-center">
-                Let's create something great together!
-                  <ArrowUpRight className="w-4 h-4 ml-1" />
-                </a>
-              </p>
-            </div>
-          </div>
-          <div className='hidden md:block overflow-hidden'>
-            <img src="./20190521_111102.jpg" alt="A picture of me" srcset="" width={900} className='rounded-tl-full rounded-br-full object-contain '/>
-          </div>
-        </section>
+function IconLink({ href, label, children }) {
+  const external = href.startsWith('http');
+  return (
+    <a
+      href={href}
+      aria-label={label}
+      title={label}
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      className="p-2 rounded-md text-slate hover:text-ink hover:bg-faint transition-colors"
+    >
+      {children}
+    </a>
+  );
+}
 
-        {/* Technology Section */}
-        <section ref={technologyRef} id='technology' className='mb-20'>
-          <h2 className="text-3xl font-bold mb-2">Technology</h2>
-          <p className="text-gray-600 mb-8">Here's what I typically work with.</p>
+function Hero() {
+  return (
+    <header id="top" className="pt-28 sm:pt-36">
+      <div className="max-w-6xl mx-auto px-5">
+        <h1 className="font-semibold tracking-[-0.035em] leading-[0.95] text-[clamp(2.9rem,8.5vw,6.25rem)]">
+          Kingsley Ankomah
+          <br />
+          Asare
+        </h1>
+        <p className="mt-7 max-w-[38rem] text-lg sm:text-xl leading-relaxed text-ink/85">
+          I’m a data science master’s student in Potsdam with a background in actuarial science. I build models, test them
+          honestly, and explain what the results mean for the people who have to act on them.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <a href="#data-science" className="inline-flex items-center gap-2 rounded-full bg-ink text-white px-5 py-2.5 font-medium hover:bg-violet transition-colors">
+            See my projects
+          </a>
+          <a href={LINKS.email} className="inline-flex items-center gap-2 rounded-full border border-ink/20 px-5 py-2.5 font-medium hover:border-ink transition-colors">
+            <Mail className="w-4 h-4" /> Email me
+          </a>
+        </div>
+      </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className='border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors'>
-              {/* frontend languages and frameworks */}
-              <h3 className="font-semibold text-lg mb-4 text-gray-900">Frontend</h3>
-              <div className="flex flex-wrap gap-4">
-                <div className='flex flex-col items-center'>
-                <svg width="56px" height="56px" viewBox="0 -58 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" fill="#000000">
-                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                  <g id="SVGRepo_iconCarrier"> <g> 
-                  <path d="M78.0659341,92.5875806 C90.8837956,92.5875806 101.274726,82.1966508 101.274726,69.3787894 C101.274726,56.5609279 90.8837956,46.1699982 78.0659341,46.1699982 C65.2480726,46.1699982 54.8571429,56.5609279 54.8571429,69.3787894 C54.8571429,82.1966508 65.2480726,92.5875806 78.0659341,92.5875806 Z M23.2087913,139.005163 C36.0266526,139.005163 46.4175825,128.614233 46.4175825,115.796372 C46.4175825,102.97851 36.0266526,92.5875806 23.2087913,92.5875806 C10.3909298,92.5875806 0,102.97851 0,115.796372 C0,128.614233 10.3909298,139.005163 23.2087913,139.005163 Z M232.791209,139.005163 C245.60907,139.005163 256,128.614233 256,115.796372 C256,102.97851 245.60907,92.5875806 232.791209,92.5875806 C219.973347,92.5875806 209.582418,102.97851 209.582418,115.796372 C209.582418,128.614233 219.973347,139.005163 232.791209,139.005163 Z" fill="#000000"> </path> 
-                  <path d="M156.565464,70.3568084 C155.823426,62.6028163 155.445577,56.1490255 149.505494,51.6131676 C141.982638,45.8687002 133.461166,49.5960243 122.964463,45.8072968 C112.650326,43.3121427 105,34.1545727 105,23.2394367 C105,10.4046502 115.577888,0 128.626373,0 C138.29063,0 146.599638,5.70747659 150.259573,13.8825477 C155.861013,24.5221258 152.220489,35.3500418 159.258242,40.8041273 C167.591489,47.2621895 178.826167,42.5329154 191.362109,48.6517412 C195.390112,50.5026944 198.799584,53.4384578 201.202056,57.0769224 C203.604528,60.7153869 205,65.0565524 205,69.7183101 C205,80.633446 197.349674,89.7910161 187.035538,92.2861702 C176.538834,96.0748977 168.017363,92.3475736 160.494506,98.092041 C152.03503,104.551712 156.563892,115.358642 149.669352,126.774447 C145.756163,134.291567 137.802119,139.43662 128.626373,139.43662 C115.577888,139.43662 105,129.03197 105,116.197184 C105,106.873668 110.581887,98.832521 118.637891,95.1306146 C131.173833,89.0117889 142.408511,93.7410629 150.741758,87.2830007 C155.549106,83.5574243 156.565464,77.8102648 156.565464,70.3568084 Z" fill="#D0021B"> </path> </g> </g>
-                </svg>
-                <span className='text-gray-900 font-semibold'>React-Router</span>
-                </div>
-
-                <div className='flex flex-col items-center'>
-                <FaReact className='size-14'/>
-                <span className='text-gray-900 font-semibold'>React.js</span>
-                </div>
-
-                <div className='flex flex-col items-center'>
-                <FaHtml5 className='size-14'/>
-                <span className='text-gray-900 font-semibold'>HTML5</span>
-                </div>
-                <div className='flex flex-col items-center'>
-                <FaCss3Alt className='size-14'/>
-                <span className='text-gray-900 font-semibold'>CSS3</span>
-                </div>
-                <div className='flex flex-col items-center'>
-                <SiTailwindcss className='size-14'/>
-                <span className='text-gray-900 font-semibold'>TailwindCss</span>
-                </div>
-                <div className='flex flex-col items-center'>
-                <SiRedux className='size-14'/>
-                <span className='text-gray-900 font-semibold'>Redux Toolkit</span>
-                </div>
-                <div className='flex flex-col items-center'>
-                <SiVitest className='size-14'/>
-                <span className='text-gray-900 font-semibold'>Vitest</span>
-                </div>
-                <div className='flex flex-col items-center'>
-                <SiJest className='size-14'/>
-                <span className='text-gray-900 font-semibold'>Jest</span>
-                </div>
-                <div className='flex flex-col items-center'>
-                <SiPython className='size-14'/>
-                <span className='text-gray-900 font-semibold'>Python</span>
-                </div>
-                <div className='flex flex-col items-center'>
-                <SiJavascript className='size-14'/>
-                <span className='text-gray-900 font-semibold'>javaScript</span>
-                </div>
-              </div>
-            </div>
-            {/* backend languages and frameworks */}
-            <div className='border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors'>
-              <h3 className="font-semibold text-lg mb-4 text-gray-900">Backend</h3>
-              <div className="flex flex-wrap gap-4">
-                <div className='flex flex-col items-center'>
-                <FaNode className='size-14'/>
-                <span className='text-gray-900 font-semibold'>Node.js</span>
-                </div>
-
-                <div className='flex flex-col items-center'>
-                <SiExpress className='size-14'/>
-                <span className='text-gray-900 font-semibold'>Express</span>
-                </div>
-
-                <div className='flex flex-col items-center'>
-                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="56" height="56" viewBox="0 0 48 48">
-                    <polygon fill="#c0ca33" points="19.981,15.84 19.981,10.575 -0.014,21.019 -0.014,26.92 20.066,37.363 20.066,32.099 5.208,23.948"></polygon>
-                    <polygon fill="#c0ca33" points="23.547,36.281 29.575,36.281 47.066,11.807 41.08,11.807"></polygon>
-                   <path fill="#c0ca33" d="M28.429,12.274c-2.79,0-5.052,2.262-5.052,5.052s2.262,5.052,5.052,5.052s5.052-2.262,5.052-5.052	C33.481,14.535,31.219,12.274,28.429,12.274z M28.472,18.981c-0.821,0-1.486-0.77-1.486-1.719s0.665-1.719,1.486-1.719	s1.486,0.77,1.486,1.719S29.292,18.981,28.472,18.981z"></path>
-                   <path fill="#c0ca33" d="M41.429,27.274c-2.79,0-5.052,2.262-5.052,5.052s2.262,5.052,5.052,5.052s5.052-2.262,5.052-5.052	C46.481,29.535,44.219,27.274,41.429,27.274z M41.472,33.981c-0.821,0-1.486-0.77-1.486-1.719s0.665-1.719,1.486-1.719	s1.486,0.77,1.486,1.719C42.958,33.211,42.292,33.981,41.472,33.981z"></path>
-                 </svg>                
-                 <span className='text-gray-900 font-semibold'>EJS</span>
-                </div>
-
-                <div className='flex flex-col items-center'>
-                <SiPug className='size-14'/>
-                <span className='text-gray-900 font-semibold'>PUG</span>
-                </div>
-
-                <div className='flex flex-col items-center'>
-                <SiPassport className='size-14'/>
-                <span className='text-gray-900 font-semibold'>Passport</span>
-                </div>
-                <div className='flex flex-col items-center'>
-                <SiDjango className='size-14'/>
-                <span className='text-gray-900 font-semibold'>Django</span>
-                </div>
-                <div className='flex flex-col items-center'>
-                <SiFlask className='size-14'/>
-                <span className='text-gray-900 font-semibold'>Flask</span>
-                </div>
-                
-              </div>
-          </div>
-          {/* database and tools */}
-          <div className='border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors'>
-            <h3 className="font-semibold text-lg mb-4 text-gray-900">Database/Tools</h3>
-            <div className="flex flex-wrap gap-4">
-              <div className='flex flex-col items-center'>
-                 <SiGit className='size-14'/>
-                 <span className='text-gray-900 font-semibold'>Git</span>
-              </div>
-              <div className='flex flex-col items-center'>
-                 <SiPostman className='size-14'/>
-                 <span className='text-gray-900 font-semibold'>Postman</span>
-              </div>
-              <div className='flex flex-col items-center'>
-                 <SiPostgresql className='size-14'/>
-                 <span className='text-gray-900 font-semibold'>Postgresql</span>
-              </div>
-              <div className='flex flex-col items-center'>
-                  <SiGraphql className='size-14'/>
-                  <span className='text-gray-900 font-semibold'>GraphQL</span>
-              </div>
-              <div className='flex flex-col items-center'>
-                 <SiPrisma className='size-14'/>
-                 <span className='text-gray-900 font-semibold'>Prisma</span>
-              </div>
-              <div className='flex flex-col items-center'>
-                 <SiMongodb className='size-14'/>
-                 <span className='text-gray-900 font-semibold'>Mongodb</span>
-              </div>
-              <div className='flex flex-col items-center'>
-                 <SiCloudinary className='size-14'/>
-                 <span className='text-gray-900 font-semibold'>Cloudinary</span>
-              </div>
-            </div>
-          </div>
-          </div>
-        </section>
-
-        {/* Work Experience Section */}
-        <section ref={experienceRef} id="experience" className="mb-20">
-          <h2 className="text-3xl font-bold mb-2">Work Experience</h2>
-          <p className="text-gray-600 mb-8">Here's my professional journey so far.</p>
-          
-          <div className="space-y-8">
-            {workExperience.map((job, index) => (
-              <div key={index} className="border-l-2 border-gray-200 pl-6 relative">
-                <div className="absolute w-3 h-3 bg-blue-600 rounded-full -left-2 top-0"></div>
-                <div className="mb-4">
-                  <h3 className="text-xl font-semibold text-gray-900">{job.title}</h3>
-                  <div className="flex items-center gap-4 text-gray-600 mt-1">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      {job.period}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <MapPin className="w-4 h-4" />
-                      {job.location}
-                    </span>
-                  </div>
-                  <p className="text-blue-600 font-medium mt-1">{job.company}</p>
-                </div>
-                {job.projects && (
-                  <div>
-                    <p className="text-sm text-gray-600 mb-2">Projects:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {job.projects.map((project) => (
-                        <span 
-                          key={project} 
-                          className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-sm"
-                        >
-                          {project}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Projects Section */}
-        <section ref={projectsRef} id="projects" className="mb-20">
-          <h2 className="text-3xl font-bold mb-2">Recent Projects</h2>
-          <p className="text-gray-600 mb-8">Some of my recent work and personal projects.</p>
-          
-          <div className="space-y-8">
-            {projects.filter(p => p.featured).map((project, index) => (
-              <div key={index} className="border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-all duration-200 hover:shadow-sm">
-                <div className={`${project.src && 'border-b'} border-gray-200 mb-4`}>
-                  <div className="flex overflow-x-auto gap-4">
-                    {project.src && project.src.map((image, imgIndex) => (
-                      <a  key={imgIndex} href={image} target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
-                        <img 
-                          src={image} 
-                          alt={`${project.title} screenshot ${imgIndex + 1}`} 
-                          className="w-32 h-32 object-cover rounded-lg hover:scale-105 transition-transform"
-                        />
-                      </a>
-                    ))}
-                  </div>
-
-                </div>
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-semibold text-gray-900">{project.title}</h3>
-                  <div className="flex gap-2">
-                    {project.github && (
-                      <a 
-                        href={project.github} 
-                        className="text-gray-600 hover:text-gray-900 transition-colors"
-                        title="View on GitHub"
-                      >
-                        <Github className="w-5 h-5" />
-                      </a>
-                    )}
-                    {project.demo && (
-                      <a 
-                        href={project.demo} 
-                        className="text-gray-600 hover:text-gray-900 transition-colors"
-                        title="View Demo"
-                      >
-                        <ExternalLink className="w-5 h-5" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-                <p className="text-gray-700 mb-4 leading-relaxed">{project.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((tech) => (
-                    <span 
-                      key={tech} 
-                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Other Projects */}
-          <div className="mt-12">
-            <h3 className="text-xl font-semibold mb-6 text-gray-900">Other Projects</h3>
-            <div className="grid md:grid-cols-2 gap-6">
-              {projects.filter(p => !p.featured).map((project, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors">
-                  <div className="flex justify-between items-start mb-3">
-                    <h4 className="font-medium text-gray-900">{project.title}</h4>
-                    <div className="flex gap-2">
-                      {project.github && (
-                        <a href={project.github} className="text-gray-600 hover:text-gray-900 transition-colors">
-                          <Github className="w-4 h-4" />
-                        </a>
-                      )}
-                      {project.demo && (
-                        <a href={project.demo} className="text-gray-600 hover:text-gray-900 transition-colors">
-                          <ExternalLink className="w-4 h-4" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                  <p className="text-gray-600 text-sm mb-3 leading-relaxed">{project.description}</p>
-                  <div className="flex flex-wrap gap-1">
-                    {project.tech.map((tech) => (
-                      <span 
-                        key={tech} 
-                        className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Contact Section */}
-        <section id="contact" className="text-center">
-          <h2 className="text-3xl font-bold mb-4">Let's Connect</h2>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-            I'm interested in new opportunities and collaborations. 
-            Kindly reach out if you'd like us to work together!🫶🏽
+      <figure className="mt-12 sm:mt-16 lg:-mt-28 max-w-7xl mx-auto px-2 sm:px-5">
+        <TrajectoryHero />
+        <figcaption className="max-w-6xl mx-auto px-3 sm:px-5 mt-4">
+          <p className="max-w-[44rem] text-sm text-slate leading-relaxed">
+            Every car (in colour) and pedestrian, cyclist or other road user (grey) on 700 m of road in Munich, recorded by
+            drone. It’s the data behind my map-matching research below.
           </p>
-          <div className="flex justify-center gap-6">
-            <a 
-              href="mailto:kingsleyasareankomah@gmail.com"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              <Mail className="w-5 h-5" />
-              Get in touch
-            </a>
-            <a 
-              href="https://github.com/KLightiam" 
-              target='_blank'
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              <Github className="w-5 h-5" />
-              GitHub
-            </a>
-          </div>
-        </section>
-      </main>
+        </figcaption>
+      </figure>
+    </header>
+  );
+}
 
-      {/* Footer */}
-      <footer className="border-t border-gray-200 py-8">
-        <div className="max-w-4xl mx-auto px-6 text-center text-gray-600">
-          <p>© 2025 Kingsley Asare</p>
-        </div>
-      </footer>
+function SectionHeading({ id, title, intro }) {
+  return (
+    <div className="max-w-[44rem]">
+      <h2 id={`${id}-title`} className="text-3xl sm:text-4xl font-semibold tracking-[-0.025em]">
+        {title}
+      </h2>
+      {intro && <p className="mt-3 text-lg text-slate leading-relaxed">{intro}</p>}
     </div>
   );
-};
+}
 
-export default App;
+function ChartPanel({ project }) {
+  const [tab, setTab] = useState(0);
+  const base = useId();
+  const chart = project.charts[tab];
+  const many = project.charts.length > 1;
+
+  const onKey = (e) => {
+    const n = project.charts.length;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      const next = (tab + (e.key === 'ArrowRight' ? 1 : n - 1)) % n;
+      setTab(next);
+      document.getElementById(`${base}-tab-${next}`)?.focus();
+    }
+  };
+
+  return (
+    <div className="min-w-0 rounded-2xl bg-white border border-rule p-5 sm:p-7">
+      {many && (
+        <div role="tablist" aria-label={`${project.title} charts`} className="flex flex-wrap gap-1 mb-6 -ml-1" onKeyDown={onKey}>
+          {project.charts.map((c, i) => (
+            <button
+              key={c.tab}
+              id={`${base}-tab-${i}`}
+              role="tab"
+              type="button"
+              aria-selected={tab === i}
+              aria-controls={`${base}-panel`}
+              tabIndex={tab === i ? 0 : -1}
+              onClick={() => setTab(i)}
+              className={`px-3 py-1.5 rounded-full text-sm transition-colors ${
+                tab === i ? 'bg-violet text-white' : 'text-slate hover:text-ink hover:bg-faint'
+              }`}
+            >
+              {c.tab}
+            </button>
+          ))}
+        </div>
+      )}
+      <figure id={`${base}-panel`} role={many ? 'tabpanel' : undefined} aria-labelledby={many ? `${base}-tab-${tab}` : undefined}>
+        <h4 className="font-semibold mb-4">{chart.title}</h4>
+        <Chart {...chart} />
+        <figcaption className="mt-5 text-sm text-slate leading-relaxed">{chart.caption}</figcaption>
+      </figure>
+
+      {project.figures?.length > 0 && (
+        <div className="mt-7 pt-5 border-t border-rule">
+          <p className="text-sm font-medium mb-3">From the analysis</p>
+          <FigureGallery figures={project.figures} title={project.title} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CaseStudy({ project }) {
+  return (
+    <article
+      aria-labelledby={`${project.slug}-title`}
+      className="grid grid-cols-1 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-8 lg:gap-12 py-14 sm:py-16 border-t border-rule first:border-t-0 first:pt-10"
+    >
+      <div>
+        <p className="text-sm text-slate">{project.context}</p>
+        <h3 id={`${project.slug}-title`} className="mt-2 text-2xl sm:text-[1.75rem] leading-tight font-semibold tracking-[-0.02em]">
+          {project.title}
+        </h3>
+        <p className="mt-4 leading-relaxed text-ink/85">{project.summary}</p>
+
+        <dl className="mt-6 grid grid-cols-3 gap-4 py-5 border-y border-rule">
+          {project.results.map((r) => (
+            <div key={r.label}>
+              <dt className="sr-only">{r.label}</dt>
+              <dd className="text-xl sm:text-2xl font-semibold tracking-tight text-violet">{r.value}</dd>
+              <dd className="mt-1 text-xs sm:text-sm text-slate leading-snug">{r.label}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <h4 className="mt-6 font-semibold">How I approached it</h4>
+        <ul className="mt-2 space-y-2 text-[0.95rem] leading-relaxed text-ink/85">
+          {project.approach.map((a) => (
+            <li key={a} className="pl-4 relative before:absolute before:left-0 before:top-[0.6em] before:w-1.5 before:h-1.5 before:rounded-full before:bg-cyan">
+              {a}
+            </li>
+          ))}
+        </ul>
+
+        <ul className="mt-6 flex flex-wrap gap-1.5" aria-label="Tools used">
+          {project.tech.map((t) => (
+            <li key={t} className="px-2.5 py-1 rounded-full bg-faint text-xs text-ink/80">{t}</li>
+          ))}
+        </ul>
+
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-violet"
+        >
+          <Github className="w-4 h-4" /> Code and notebook on GitHub
+          <ArrowUpRight className="w-3.5 h-3.5" />
+        </a>
+      </div>
+      <ChartPanel project={project} />
+    </article>
+  );
+}
+
+function DataScience() {
+  return (
+    <section id="data-science" aria-labelledby="data-science-title" className="max-w-6xl mx-auto px-5 pt-24 sm:pt-32">
+      <SectionHeading
+        id="data-science"
+        title="Data science projects"
+        intro="Each project starts from a real question, checks its own results, and reports what didn’t work as well as what did. Charts use the numbers from my notebooks."
+      />
+      <div className="mt-6">
+        {dataScience.map((p) => (
+          <CaseStudy key={p.slug} project={p} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Software() {
+  const featured = projects.filter((p) => p.featured);
+  const others = projects.filter((p) => !p.featured);
+  return (
+    <section id="software" aria-labelledby="software-title" className="bg-white border-y border-rule mt-16">
+      <div className="max-w-6xl mx-auto px-5 py-20 sm:py-24">
+        <SectionHeading
+          id="software"
+          title="Software"
+          intro="I also build the systems data lives in: APIs, databases and the apps people use."
+        />
+        <div className="mt-10 divide-y divide-rule">
+          {featured.map((p) => (
+            <article key={p.title} className="py-8 first:pt-0 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-6 md:gap-10">
+              <div>
+                <h3 className="text-xl font-semibold tracking-tight">{p.title}</h3>
+                <p className="mt-2 leading-relaxed text-ink/85">{p.description}</p>
+                <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Tools used">
+                  {p.tech.map((t) => (
+                    <li key={t} className="px-2.5 py-1 rounded-full bg-faint text-xs text-ink/80">{t}</li>
+                  ))}
+                </ul>
+                <a
+                  href={p.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex items-center gap-2 text-sm font-medium underline decoration-ink/25 underline-offset-4 hover:decoration-violet"
+                >
+                  <Github className="w-4 h-4" /> View code <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+              {p.src ? (
+                <ul className="flex gap-3 overflow-x-auto pb-2 self-start" aria-label={`${p.title} screenshots`}>
+                  {p.src.map((img, i) => (
+                    <li key={img} className="shrink-0">
+                      <a href={img} target="_blank" rel="noopener noreferrer" className="block">
+                        <img
+                          src={img}
+                          alt={`${p.title} screenshot ${i + 1}`}
+                          loading="lazy"
+                          className="w-40 h-28 object-cover object-top rounded-md border border-rule"
+                        />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                p.highlights && (
+                  <ul className="self-start grid grid-cols-3 gap-4 md:pt-1">
+                    {p.highlights.map((h) => {
+                      const [num, ...rest] = h.split(' ');
+                      return (
+                        <li key={h} className="border-t-2 border-violet pt-3">
+                          <span className="block text-2xl font-semibold tracking-tight">{num}</span>
+                          <span className="block mt-1 text-sm text-slate leading-snug">{rest.join(' ')}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )
+              )}
+            </article>
+          ))}
+        </div>
+
+        <h3 className="mt-14 text-lg font-semibold">Smaller builds</h3>
+        <ul className="mt-4 grid sm:grid-cols-2 gap-x-10">
+          {others.map((p) => (
+            <li key={p.title} className="py-4 border-t border-rule">
+              <a href={p.github} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-1.5 font-medium">
+                <span className="underline decoration-transparent underline-offset-4 group-hover:decoration-violet">{p.title}</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate" />
+              </a>
+              <p className="mt-1 text-sm text-slate leading-relaxed">{p.description}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+function Experience() {
+  return (
+    <section id="experience" aria-labelledby="experience-title" className="max-w-6xl mx-auto px-5 pt-24 sm:pt-28">
+      <SectionHeading id="experience" title="Experience and education" />
+      <ol className="mt-10 border-l border-rule ml-2">
+        {workExperience.map((job) => {
+          const Icon = job.kind === 'education' ? GraduationCap : Briefcase;
+          return (
+            <li key={job.title} className="relative pl-8 sm:pl-10 pb-10 last:pb-0">
+              <span className="absolute -left-[13px] top-0 grid place-items-center w-[26px] h-[26px] rounded-full bg-paper border border-rule text-violet">
+                <Icon className="w-3.5 h-3.5" aria-hidden="true" />
+              </span>
+              <div className="grid md:grid-cols-[11rem_minmax(0,1fr)] gap-x-8 gap-y-1">
+                <p className="text-sm text-slate tabular pt-0.5">{job.period}</p>
+                <div>
+                  <h3 className="text-lg font-semibold leading-snug">{job.title}</h3>
+                  <p className="text-ink/80">
+                    {job.company}
+                    <span className="text-slate">, {job.location}</span>
+                  </p>
+                  <ul className="mt-2 space-y-1.5 text-[0.95rem] text-ink/80 leading-relaxed max-w-[42rem]">
+                    {job.points.map((pt) => <li key={pt}>{pt}</li>)}
+                  </ul>
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  );
+}
+
+function Skills() {
+  return (
+    <section id="skills" aria-labelledby="skills-title" className="max-w-6xl mx-auto px-5 pt-24 sm:pt-28">
+      <SectionHeading id="skills" title="Skills" />
+      <dl className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8">
+        {skills.map((s) => (
+          <div key={s.group} className="border-t-2 border-ink pt-3">
+            <dt className="font-semibold">{s.group}</dt>
+            <dd className="mt-2 text-ink/80 leading-relaxed">{s.items.join(', ')}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  );
+}
+
+function Contact() {
+  return (
+    <section id="contact" aria-labelledby="contact-title" className="max-w-6xl mx-auto px-5 pt-24 sm:pt-28 pb-24">
+      <div className="grid md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] gap-8 md:gap-14 items-start">
+        <img
+          src="./profile.webp"
+          alt="Portrait of Kingsley Ankomah Asare"
+          width="900"
+          height="1000"
+          loading="lazy"
+          className="w-40 md:w-full rounded-2xl object-cover aspect-[9/10]"
+        />
+        <div className="max-w-[40rem]">
+          <h2 id="contact-title" className="text-3xl sm:text-4xl font-semibold tracking-[-0.025em]">
+            Let’s talk
+          </h2>
+          <p className="mt-4 text-lg leading-relaxed text-ink/85">
+            Before data science I worked in research and IT support for Ghana’s AfCFTA coordination office, and I still build
+            web apps on the side. I’m looking for data science and machine learning roles in Germany, and I’m always happy to talk
+            about map data, NLP or a messy dataset.
+          </p>
+          <p className="mt-3 flex items-center gap-1.5 text-slate">
+            <MapPin className="w-4 h-4" /> Potsdam, Germany. English fluent, German basic.
+          </p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <a href={LINKS.email} className="inline-flex items-center gap-2 rounded-full bg-ink text-white px-5 py-2.5 font-medium hover:bg-violet transition-colors">
+              <Mail className="w-4 h-4" /> kingsleyasareankomah@gmail.com
+            </a>
+            <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-ink/20 px-5 py-2.5 font-medium hover:border-ink transition-colors">
+              <Linkedin className="w-4 h-4" /> LinkedIn
+            </a>
+            <a href={LINKS.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-ink/20 px-5 py-2.5 font-medium hover:border-ink transition-colors">
+              <Github className="w-4 h-4" /> GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default function App() {
+  return (
+    <>
+      <a href="#data-science" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-30 focus:bg-white focus:px-3 focus:py-2 focus:rounded-md">
+        Skip to projects
+      </a>
+      <Nav />
+      <main>
+        <Hero />
+        <DataScience />
+        <Software />
+        <Experience />
+        <Skills />
+        <Contact />
+      </main>
+      <footer className="border-t border-rule">
+        <div className="max-w-6xl mx-auto px-5 py-8 text-sm text-slate flex flex-wrap justify-between gap-3">
+          <p>© {new Date().getFullYear()} Kingsley Ankomah Asare</p>
+          <p>Built with React and Tailwind CSS. Charts drawn from my own results.</p>
+        </div>
+      </footer>
+    </>
+  );
+}
